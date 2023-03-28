@@ -66,6 +66,46 @@ def ex3(a, b, x, n):
     return np.linalg.norm(p - b)
 
 
+def bonus():
+    index = 0
+    b = open("b.txt", "r")
+    b.readline()
+    val2, i2, j2 = b.readline().split(",")
+    val2 = float(val2.strip())
+    i2 = int(i2.strip())
+    j2 = int(j2.strip())
+    a = open("a.txt", "r")
+    a.readline()
+    val1, i1, j1 = a.readline().split(",")
+    val1 = float(val1.strip())
+    i1 = int(i1.strip())
+    j1 = int(j1.strip())
+
+    while a is not None:
+        while i1 == i2:
+            if j1 < j2:
+                print(val2)
+            elif j1 == j2:
+                print(val1 + val2)
+            elif j1 > j2:
+                print(val1)
+            val2, i2, j2 = b.readline().split(",")
+            val2 = float(val2.strip())
+            i2 = int(i2.strip())
+            j2 = int(j2.strip())
+        while i1 > i2:
+            print(val2)
+            val2, i2, j2 = b.readline().split(",")
+            val2 = float(val2.strip())
+            i2 = int(i2.strip())
+            j2 = int(j2.strip())
+        if i2 > i1:
+            val1, i1, j1 = a.readline().split(",")
+            val1 = float(val1.strip())
+            i1 = int(i1.strip())
+            j1 = int(j1.strip())
+
+
 if __name__ == "__main__":
     a1, n1 = ex1("a1.txt")
     # print(a1)
@@ -79,4 +119,5 @@ if __name__ == "__main__":
     # b4 = ex1b("b4.txt")
     # b5 = ex1b("b5.txt")
     x1 = ex2(a1, b1, n1)
-    print(ex3(a1, b1, x1, n1))
+    # print(ex3(a1, b1, x1, n1))
+    bonus()
