@@ -80,30 +80,47 @@ def bonus():
     val1 = float(val1.strip())
     i1 = int(i1.strip())
     j1 = int(j1.strip())
+    i = 7000
 
-    while a is not None:
-        while i1 == i2:
-            if j1 < j2:
-                print(val2)
-            elif j1 == j2:
+    while a and b and i != 0:
+        while i1 == i2 and j1 >= j2:
+            if j1 == j2:
                 print(val1 + val2)
+                if i != 0:
+                    val1, i1, j1 = a.readline().split(",")
+                    val1 = float(val1.strip())
+                    i1 = int(i1.strip())
+                    j1 = int(j1.strip())
             elif j1 > j2:
-                print(val1)
-            val2, i2, j2 = b.readline().split(",")
-            val2 = float(val2.strip())
-            i2 = int(i2.strip())
-            j2 = int(j2.strip())
+                print(val2)
+            if i != 0:
+                val2, i2, j2 = b.readline().split(",")
+                val2 = float(val2.strip())
+                i2 = int(i2.strip())
+                j2 = int(j2.strip())
+                i = i - 1
         while i1 > i2:
             print(val2)
             val2, i2, j2 = b.readline().split(",")
             val2 = float(val2.strip())
             i2 = int(i2.strip())
             j2 = int(j2.strip())
+            i = i - 1
+        if i1 < i2:
+            print(val1)
         if i2 > i1:
             val1, i1, j1 = a.readline().split(",")
             val1 = float(val1.strip())
             i1 = int(i1.strip())
             j1 = int(j1.strip())
+        if j1 < j2:
+            print(val1)
+            val1, i1, j1 = a.readline().split(",")
+            val1 = float(val1.strip())
+            i1 = int(i1.strip())
+            j1 = int(j1.strip())
+
+
 
 
 if __name__ == "__main__":
