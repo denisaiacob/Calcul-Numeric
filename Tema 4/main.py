@@ -39,19 +39,32 @@ def ex1b(file):
 
 
 def ex2(a, b, n):
-    index = 0
     x = list()
     for i in range(0, n):
         x.append(0)
-    for i in range(0, n):
+    dx = 0
+    kmax = 13
+    k = 0
+    while True:
+        save = x.copy()
+        for i in range(0, n):
+            suma = 0
+            for j in range(0, len(a[i])):
+                if i != a[i][j][1]:
+                    suma = suma + a[i][j][0] * x[a[i][j][1]]
+                else:
+                    diag = a[i][j][0]
+            x[i] = (b[i] - suma) / diag
         sum = 0
-        for j in range(0, len(a[i])):
-            if i != a[i][j][1]:
-                sum = sum + a[i][j][0] * x[a[i][j][1]]
-            else:
-                diag = a[i][j][0]
-        x[i] = (b[i] - sum) / diag
-        index += 1
+        for i in range(0, n):
+            sum += (x[i] - save[i])
+        k += 1
+        dx = sum
+        if dx > 10 ** 16 or dx < eps:
+            break
+        if k > kmax:
+            break
+    # print(k)
     return x
 
 
@@ -60,64 +73,79 @@ def ex3(a, b, x, n):
     for i in range(0, n):
         suma = 0
         for j in range(0, len(a[i])):
-            suma += round(x[i]) * a[i][j][0]
+            suma += (x[i]) * a[i][j][0]
         p[i] = suma
 
-    return np.linalg.norm(p - b)
+    return np.linalg.norm(p - b, np.inf)
 
 
 def bonus():
-    index = 0
-    b = open("b.txt", "r")
-    b.readline()
-    val2, i2, j2 = b.readline().split(",")
-    val2 = float(val2.strip())
-    i2 = int(i2.strip())
-    j2 = int(j2.strip())
-    a = open("a.txt", "r")
-    a.readline()
-    val1, i1, j1 = a.readline().split(",")
-    val1 = float(val1.strip())
-    i1 = int(i1.strip())
-    j1 = int(j1.strip())
+    a, n = ex1("a.txt")
+    b, n = ex1("b.txt")
+    d, n = ex1("aplusb.txt")
+    equal = True
+    for i in range(0, n):
+        a[i].sort(key=lambda x: x[1])
+        b[i].sort(key=lambda x: x[1])
+        d[i].sort(key=lambda x: x[1])
+    for i in range(0, n):
+        index = 0
+        index1 = 0
+        index2 = 0
+        while index1 < len(a[i]) and index2 < len(b[i]):
+            if a[i][index1][1] == b[i][index2][1]:
+                c = a[i][index1][0] + b[i][index2][0]
+                index1 += 1
+                index2 += 1
+                if c != 0:
+                    if abs(c - d[i][index][0]) > eps:
+                        equal = False
+                    index += 1
+            elif a[i][index1][1] < b[i][index2][1]:
+                c = a[i][index1][0]
+                index1 += 1
+                if c != 0:
+                    if abs(c - d[i][index][0]) > eps:
+                        equal = False
+                    index += 1
+            elif a[i][index1][1] > b[i][index2][1]:
+                c = b[i][index2][0]
+                index2 += 1
+                if c != 0:
+                    if abs(c - d[i][index][0]) > eps:
+                        equal = False
+                    index += 1
+        while index1 < len(a[i]):
+            c = a[i][index1][0]
+            index1 += 1
+            if c != 0:
+                if abs(c - d[i][index][0]) > eps:
+                    equal = False
+                index += 1
+        while index2 < len(b[i]):
+            c = b[i][index2][0]
+            index2 += 1
+            if c != 0:
+                if abs(c - d[i][index][0]) > eps:
+                    equal = False
+                index += 1
 
-    while a is not None:
-        while i1 == i2:
-            if j1 < j2:
-                print(val2)
-            elif j1 == j2:
-                print(val1 + val2)
-            elif j1 > j2:
-                print(val1)
-            val2, i2, j2 = b.readline().split(",")
-            val2 = float(val2.strip())
-            i2 = int(i2.strip())
-            j2 = int(j2.strip())
-        while i1 > i2:
-            print(val2)
-            val2, i2, j2 = b.readline().split(",")
-            val2 = float(val2.strip())
-            i2 = int(i2.strip())
-            j2 = int(j2.strip())
-        if i2 > i1:
-            val1, i1, j1 = a.readline().split(",")
-            val1 = float(val1.strip())
-            i1 = int(i1.strip())
-            j1 = int(j1.strip())
+    return equal
 
 
 if __name__ == "__main__":
     a1, n1 = ex1("a1.txt")
     # print(a1)
-    # a2, n2 = ex1("a2.txt")
+    a2, n2 = ex1("a2.txt")
     # a3, n3 = ex1("a3.txt")
     # a4, n4 = ex1("a4.txt")
-    # a5, n5 = ex1("a5.txt")
+    a5, n5 = ex1("a5.txt")
     b1 = ex1b("b1.txt")
-    # b2 = ex1b("b2.txt")
+    b2 = ex1b("b2.txt")
     # b3 = ex1b("b3.txt")
     # b4 = ex1b("b4.txt")
-    # b5 = ex1b("b5.txt")
-    x1 = ex2(a1, b1, n1)
-    # print(ex3(a1, b1, x1, n1))
-    bonus()
+    b5 = ex1b("b5.txt")
+    x1 = ex2(a5, b5, n5)
+    print(x1)
+    print(ex3(a5, b5, x1, n5))
+    # print(bonus())
