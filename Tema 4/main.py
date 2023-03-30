@@ -39,6 +39,7 @@ def ex1b(file):
 
 
 def ex2(a, b, n):
+    index = 0
     x = list()
     for i in range(0, n):
         x.append(0)
